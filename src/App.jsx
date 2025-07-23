@@ -1,29 +1,34 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home2 from './pages/Home2';
-import About from './pages/About';
-import Services from './pages/Services';
-import Appointments from './pages/Appointments';
-import Speaking from './pages/Speaking';
+import { Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import DashboardLayout from "./pages/dashboard/DashboardLayout";
+import Workouts from "./pages/dashboard/Workouts";
+import Nutrition from "./pages/dashboard/Nutrition";
+import FAQs from "./pages/dashboard/FAQs";
+import Profile from "./pages/dashboard/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen bg-earth-light text-earth-dark">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home2 />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/appointments" element={<Appointments />} />
-            <Route path="/speaking" element={<Speaking />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+
+      {/* Dashboard - Protected */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Workouts />} /> {/* default page when visiting /dashboard */}
+        <Route path="workouts" element={<Workouts />} />
+        <Route path="nutrition" element={<Nutrition />} />
+        <Route path="faqs" element={<FAQs />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+    </Routes>
   );
 }
 
