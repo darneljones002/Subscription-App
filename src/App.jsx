@@ -1,35 +1,38 @@
-import { Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Checkout from "./pages/Checkout";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 import DashboardLayout from "./pages/dashboard/DashboardLayout";
 import Workouts from "./pages/dashboard/Workouts";
 import Nutrition from "./pages/dashboard/Nutrition";
 import FAQs from "./pages/dashboard/FAQs";
 import Profile from "./pages/dashboard/Profile";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute"; // If you’re protecting dashboard routes
 
-function App() {
+export default function App() {
   return (
-    <Routes>
-      {/* Public Landing Page */}
-      <Route path="/" element={<LandingPage />} />
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Checkout />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
 
-      {/* Dashboard - Protected */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Workouts />} /> {/* default page when visiting /dashboard */}
-        <Route path="workouts" element={<Workouts />} />
-        <Route path="nutrition" element={<Nutrition />} />
-        <Route path="faqs" element={<FAQs />} />
-        <Route path="profile" element={<Profile />} />
-      </Route>
-    </Routes>
+        {/* Protected Dashboard Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="workouts" element={<Workouts />} />
+          <Route path="nutrition" element={<Nutrition />} />
+          <Route path="faqs" element={<FAQs />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
-
-export default App;

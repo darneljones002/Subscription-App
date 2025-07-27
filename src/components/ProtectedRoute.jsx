@@ -1,9 +1,12 @@
-import React from "react";
+// src/components/ProtectedRoute.jsx
+import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
-// Simulated auth check (replace with real logic)
-const userIsSubscribed = true; // 🔁 Replace with Firebase/Auth check later
-
 export default function ProtectedRoute({ children }) {
-  return userIsSubscribed ? children : <Navigate to="/checkout" replace />;
+  const { currentUser, userData, loading } = useAuth();
+
+  if (loading) return <p>Loading...</p>;
+  if (!currentUser || !userData?.paid) return <Navigate to="/" />;
+
+  return children;
 }
